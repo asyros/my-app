@@ -3,10 +3,13 @@ import { useGetProductsQuery } from "../../services/products";
 import { Nav } from "../nav";
 import { Link } from "react-router-dom";
 import { addToCart, removeFromCart } from "../cart/cartSlice";
+import { useTheme } from "../../context/ThemeContext";
 
 export const ProductList = () => {
   const products = useSelector((state) => state.cart);
   const dispatch = useDispatch();
+  const { theme } = useTheme();
+  const darkMode = theme === "dark";
 
   const { data, error, isLoading } = useGetProductsQuery();
 
@@ -15,18 +18,21 @@ export const ProductList = () => {
   if (isLoading || !data) return <div>Loading...</div>;
 
   const textAlignCenter = { textAlign: "center" };
+
   const itemStyle = { paddingRight: "25px", ...textAlignCenter };
+
   const tableHeaderStyle = {
-    backgroundColor: "lightblue",
+    backgroundColor: darkMode ? "grey" : "lightblue",
+    color: darkMode ? "white" : "black",
     ...textAlignCenter,
     fontWeight: "bold",
   };
+
   const buttonStyle = {
     margin: "0px 0px 0px 10px",
     padding: "10px 20px",
     cursor: "pointer",
-    color: "white",
-    backgroundColor: "orange",
+    color: darkMode ? "white" : "black",
     border: "none",
     borderRadius: "5px",
     fontSize: "16px",
@@ -78,7 +84,7 @@ export const ProductList = () => {
                       style={{
                         ...buttonStyle,
                         marginBottom: "20px",
-                        backgroundColor: "blue",
+                        backgroundColor: darkMode ? "#1f0eb3ff" : "#007bff",
                       }}
                       onClick={() => dispatch(addToCart(product))}
                     >
@@ -88,7 +94,7 @@ export const ProductList = () => {
                       style={{
                         ...buttonStyle,
                         marginBottom: "20px",
-                        backgroundColor: "red",
+                        backgroundColor: darkMode ? "#a20303ff" : "red",
                       }}
                       onClick={() => dispatch(removeFromCart(product))}
                       disabled={!productInCart}
@@ -99,10 +105,18 @@ export const ProductList = () => {
                       style={{
                         ...buttonStyle,
                         marginBottom: "20px",
-                        backgroundColor: "orange",
+                        backgroundColor: darkMode ? "#b96703ff" : "orange",
                       }}
                     >
-                      <Link to={`/productDetails/${id}`}>View Details</Link>
+                      <Link
+                        to={`/productDetails/${id}`}
+                        style={{
+                          textDecoration: "none",
+                          color: darkMode ? "white" : "black",
+                        }}
+                      >
+                        View Details
+                      </Link>
                     </button>
                   </td>
                 </tr>

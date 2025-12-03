@@ -1,8 +1,12 @@
 import { useParams } from "react-router-dom";
 import { Nav } from "../nav";
 import { useGetProductByIdQuery } from "../../services/products";
+import { useTheme } from "../../context/ThemeContext";
 
 export const ProductDetails = () => {
+  const { theme } = useTheme();
+  const darkMode = theme === "dark";
+
   const { productId } = useParams();
 
   const { data, error, isLoading } = useGetProductByIdQuery(productId);
@@ -19,13 +23,14 @@ export const ProductDetails = () => {
             textAlign: "center",
             width: "50%",
             margin: "auto",
-            border: "1px solid gray",
+            border: darkMode ? "1px solid #555" : "1px solid gray",
             padding: "20px",
             borderRadius: "10px",
             boxShadow: "2px 2px 12px #aaa",
-            backgroundColor: "#f9f9f9",
-            backgroundImage:
-              "linear-gradient(to bottom right, #ffffff, #e6f7ff)",
+            backgroundImage: darkMode
+              ? "linear-gradient(to bottom right, #555555, #333333)"
+              : "linear-gradient(to bottom right, #ffffff, #e6f7ff)",
+            color: darkMode ? "white" : "black",
           }}
         >
           <div>

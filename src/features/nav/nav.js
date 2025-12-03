@@ -1,13 +1,18 @@
 import { Link } from "react-router-dom";
+import { useTheme } from "../../context/ThemeContext";
 
 export const Nav = () => {
+  const { theme, toggleTheme } = useTheme();
+
+  const darkMode = theme === "dark";
+
   const btnStyle = {
     cursor: "pointer",
     marginRight: "10px",
     padding: "15px 20px",
-    backgroundColor: "#007bff",
+    backgroundColor: darkMode ? "#333" : "#007bff",
     border: "none",
-    borderColor: "#007bff",
+    borderColor: darkMode ? "#333" : "#007bff",
     borderRadius: "3px",
     minWidth: "100px",
     color: "white",
@@ -25,6 +30,17 @@ export const Nav = () => {
       <Link to="/cart" style={btnStyle}>
         Cart
       </Link>
+      <Link to="/login" style={btnStyle}>
+        User Profile
+      </Link>
+      <button
+        style={btnStyle}
+        onClick={() => {
+          toggleTheme();
+        }}
+      >
+        Toggle {darkMode ? "Light" : "Dark"} Theme
+      </button>
     </nav>
   );
 };
